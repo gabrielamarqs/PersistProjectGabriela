@@ -35,19 +35,8 @@ public class SellerRepository {
             throw new RuntimeException(e);
 
         } finally {
-
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
+            ConnectionFactory.resultSetClose(resultSet);
+            ConnectionFactory.statementClose(statement);
         }
     }
 

@@ -1,8 +1,8 @@
 package br.edu.ifpr.persistproject.connection;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import br.edu.ifpr.persistproject.exception.DatabaseIntegrityException;
+
+import java.sql.*;
 
 public class ConnectionFactory {
 
@@ -13,6 +13,22 @@ public class ConnectionFactory {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static void statementClose(Statement statement){
+        try {
+            statement.close();
+        } catch (SQLException e) {
+            throw new DatabaseIntegrityException(e.getMessage());
+        }
+    }
+
+    public static void resultSetClose(ResultSet resultSet){
+        try {
+            resultSet.close();
+        } catch (SQLException e) {
+            throw new DatabaseIntegrityException(e.getMessage());
         }
     }
 
