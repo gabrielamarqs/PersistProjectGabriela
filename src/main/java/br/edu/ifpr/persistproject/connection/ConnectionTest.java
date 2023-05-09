@@ -13,6 +13,12 @@ public class ConnectionTest {
 
         SellerRepository repository = new SellerRepository();
 
+        Seller seller = new Seller();
+        seller.setName("Maria");
+        seller.setBaseSalary(5000.0);
+
+        repository.insert(seller);
+
         List<Seller> sellers = repository.getSellers();
 
         sellers.forEach( s -> System.out.println(s) );

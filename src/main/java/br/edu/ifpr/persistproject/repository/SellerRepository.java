@@ -3,10 +3,9 @@ package br.edu.ifpr.persistproject.repository;
 import br.edu.ifpr.persistproject.connection.ConnectionFactory;
 import br.edu.ifpr.persistproject.model.Seller;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,5 +52,55 @@ public class SellerRepository {
 
     }
 
+    public Seller insert(Seller seller){
+
+        //SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        PreparedStatement statement = null;
+
+        try {
+            statement = conn.prepareStatement("INSERT INTO seller (" +
+                    "Name, " +
+                    "Email, " +
+                    "BirthDate, " +
+                    "BaseSalary, " +
+                    "DepartmentId) " +
+                    "VALUES (?, ?, ?, ?, ?);", PreparedStatement.RETURN_GENERATED_KEYS);
+
+            statement.setString(1, seller.getName());
+            statement.setString(2, "jefferson.chaves@ifpr.edu.br");
+            //statement.setDate(3, new Date(dateFormat.parse("26/04/1989").getTime()));
+            statement.setDate(3, Date.valueOf(seller.getBirthDate()));
+            statement.setDouble(4, seller.getBaseSalary());
+            statement.setInt(5, 2);
+
+            Integer rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0){
+
+                ResultSet keys = statement.getGeneratedKeys();
+                keys.next();
+                Integer id = keys.getInt(1);
+
+                seller.setId(id);
+
+
+                System.out.println("Done! " + rowsAffected + " rows affected");
+                System.out.println("Id generated: " + id);
+            }
+
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+
+        } finally {
+            ConnectionFactory.statementClose(statement);
+        }
+
+        return seller;
+
+
+    }
 
 }
