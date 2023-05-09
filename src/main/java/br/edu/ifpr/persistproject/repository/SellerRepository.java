@@ -1,11 +1,14 @@
 package br.edu.ifpr.persistproject.repository;
 
 import br.edu.ifpr.persistproject.connection.ConnectionFactory;
+import br.edu.ifpr.persistproject.model.Seller;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SellerRepository {
 
@@ -16,7 +19,9 @@ public class SellerRepository {
         conn = connectionFactory.getConnection();
     }
 
-    public void getSellers(){
+    public List<Seller> getSellers(){
+
+        List<Seller> sellers = new ArrayList<>();
 
         Statement statement = null;
         ResultSet resultSet = null;
@@ -26,9 +31,14 @@ public class SellerRepository {
             resultSet = statement.executeQuery("SELECT * FROM seller");
 
             while (resultSet.next()){
-                System.out.println(
-                        resultSet.getInt("Id") + "" +
-                        resultSet.getString("Name"));
+                Seller seller = new Seller();
+
+                seller.setId(resultSet.getInt("Id"));
+                seller.setName(resultSet.getString("Name"));
+                seller.setBaseSalary(resultSet.getDouble("BaseSalary"));
+                seller.setBirthDate(resultSet.getDate("BirthDate").toLocalDate());
+
+                sellers.add(seller);
             }
 
         } catch (SQLException e) {
@@ -38,6 +48,9 @@ public class SellerRepository {
             ConnectionFactory.resultSetClose(resultSet);
             ConnectionFactory.statementClose(statement);
         }
+
+        return sellers;
+
     }
 
 
