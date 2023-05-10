@@ -8,15 +8,18 @@ public class ConnectionFactory {
 
     public Connection getConnection(){
 
+        // está retornando uma conexão
+
         try {
-            return DriverManager.getConnection("jdbc:mysql://localhost/ifpr_store", "root", "bancodedados");
+            return DriverManager.getConnection("jdbc:mysql://localhost/ifpr_store", "gabriela", "daniela");
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void statementClose(Statement statement){
+    public static void statementClose(Statement statement) {
+        // para fechar a statement
         try {
             statement.close();
         } catch (SQLException e) {
@@ -24,12 +27,13 @@ public class ConnectionFactory {
         }
     }
 
-    public static void resultSetClose(ResultSet resultSet){
+    public static void resultSetClose(ResultSet resultSet) {
+        // para fechar a statement
         try {
             resultSet.close();
         } catch (SQLException e) {
             throw new DatabaseIntegrityException(e.getMessage());
         }
-    }
 
+    }
 }

@@ -10,6 +10,12 @@ public class Seller {
     private LocalDate birthDate;
     private Double baseSalary;
     private Department department;
+    private String email;
+
+    // toda classe que quer ser modelo de dados precisa de mais algumas coisas
+
+    // alt + insert
+    // para fazer os getter and setter
 
     public Integer getId() {
         return id;
@@ -51,6 +57,16 @@ public class Seller {
         this.department = department;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
+    // objeto será considerado igual o outro se tiver o mesmo id
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,14 +80,17 @@ public class Seller {
         return Objects.hash(id);
     }
 
+    // ele transforma o objeto em string
     @Override
     public String toString() {
-        return "Seller { " +
+        return "Seller{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", email=" + email +
                 ", birthDate=" + birthDate +
                 ", baseSalary=" + baseSalary +
                 ", department=" + department +
                 '}';
     }
 }
+
